@@ -60,10 +60,6 @@ The [twitter_sentiment](https://github.com/mortardata/mortar-examples/blob/maste
 
 ## Advanced Examples
 
-### Twitter Pagerank
+### Pagerank
 
-A separate Mortar project, [twitter-pagerank](https://github.com/mortardata/twitter-pagerank) shows how to embed Pig 
-in a Jython controlscript.  This project runs Pagerank, an algorithm that uses several iteration steps, on a subset of 
-the Twitter follower graph. The result is a list of who influential people on Twitter tend to follow. 
-There is a [tutorial](http://help.mortardata.com/tutorials/git_projects/working_with_iterative_algorithms) 
-on the Mortar help site which walks through the twitter-pagerank project.
+A separate Mortar project, [mortar-pagerank](https://github.com/mortardata/mortar-pagerank) shows how to embed Pig in a Jython controlscript.  This project has a generic implementation of the Pagerank algorithm that you can use with any directed graph, as well as two example scripts demonstrating its use. One example runs Pagerank on a subset of the Twitter follower graph to find who's the most influential on Twitter; the other runs Pagerank on a patent citation graph to find which organizations produce the most influential patents. There is a [tutorial](http://help.mortardata.com/tutorials/git_projects/working_with_iterative_algorithms) on the Mortar help site which walks through the mortar-pagerank project.
