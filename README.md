@@ -21,7 +21,7 @@ To register your Mortar project you will need to upgrade your Mortar account.  Y
 
 All Mortar projects share a global namespace so for this example project you should prepend your id to the project name in order to avoid namespace collisions.
 
-        mortar register <your-id>-mortar-examples
+        mortar register <your-username>-mortar-examples
 
 Once your project is registered you can run it on a Hadoop cluster using `mortar run <pig script> --clustersize <cluster size>`
 
