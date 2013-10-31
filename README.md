@@ -8,13 +8,24 @@ Here we've included some example scripts that explore public data sets. To start
 
 1. [Signup for a Mortar account](https://app.mortardata.com/signup)
 1. [Install the Mortar Development Framework](http://help.mortardata.com/#!/install_mortar_development_framework)
-1.  Clone this repository to your computer and register it as a project with Mortar:
+1. Clone this repository to your computer:
 
         git clone git@github.com:mortardata/mortar-examples.git
         cd mortar-examples
-        mortar register mortar-examples
 
-Once you've setup the project, use the `mortar illustrate` command to show data flowing through a given script.  Use `mortar run` to run the script on a Hadoop cluster.
+Once you've setup the project, use the `mortar local:illustrate` command to show data flowing through a given script.  Use `mortar local:run` to run the script locally on your own computer.
+
+### Registering your Mortar Project
+
+To register your Mortar project you will need to upgrade your Mortar account.  You can view the available plans [here](https://app.mortardata.com/account#!/plans).
+
+All Mortar projects share a global namespace so for this example project you should prepend your id to the project name in order to avoid namespace collisions.
+
+        mortar register <your-id>-mortar-examples
+
+Once your project is registered you can run it on a Hadoop cluster using `mortar run <pig script> --clustersize <cluster size>`
+
+## Help
 
 For lots more help and tutorials on running Mortar, check out the [Mortar Help](http://help.mortardata.com/) site.
 
