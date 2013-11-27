@@ -3,7 +3,7 @@
  */
 
 -- To test with a small portion of the data, you can set INPUT_PATH to
--- 's3n://mortar-example-data/ngrams/books/20120701/eng-all/1gram/q.gz'
+-- 's3://mortar-example-data/ngrams/books/20120701/eng-all/1gram/googlebooks-eng-all-1gram-20120701-q.gz'
 -- to load only words beginning with "q".
 
 %default INPUT_PATH 's3n://mortar-example-data/ngrams/books/20120701/eng-all/1gram/*.gz'
