@@ -52,12 +52,11 @@ all_word_totals         =   GROUP word_totals ALL;
 stats                   =   FOREACH all_word_totals GENERATE 
                                 COUNT(word_totals) AS num_unique_words,
                                 SUM(word_totals.occurrences) AS total_num_words;
-                                
-word_totals_with_stats  =   CROSS word_totals, stats;
-word_frequencies        =   FOREACH word_totals_with_stats GENERATE 
-                                word_totals::word AS word, 
-                                word_totals::occurrences AS occurrences, 
-                                (double)word_totals::occurrences / (double)stats::total_num_words AS frequency: double;
+
+word_frequencies        =   FOREACH word_totals GENERATE 
+                                word AS word, 
+                                occurrences AS occurrences, 
+                                (double)occurrences / (double)stats.total_num_words AS frequency: double;
 word_frequencies_sorted =   ORDER word_frequencies BY frequency;
 
 rmf $OUTPUT_PATH/stats;
