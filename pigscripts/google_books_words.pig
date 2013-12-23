@@ -59,7 +59,5 @@ word_frequencies        =   FOREACH word_totals GENERATE
                                 (double)occurrences / (double)stats.total_num_words AS frequency: double;
 word_frequencies_sorted =   ORDER word_frequencies BY frequency;
 
-rmf $OUTPUT_PATH/stats;
 rmf $OUTPUT_PATH/dictionary;
-STORE stats INTO '$OUTPUT_PATH/stats' USING PigStorage('\t');
 STORE word_frequencies_sorted INTO '$OUTPUT_PATH/dictionary' USING PigStorage('\t');
