@@ -4,26 +4,7 @@ Mortar is a platform-as-a-service for Hadoop.  With Mortar, you can run jobs on 
 
 ## Getting Started
 
-Here we've included some example scripts that explore public data sets. To start using them:
-
-1. [Signup for a Mortar account](https://app.mortardata.com/signup)
-1. [Install the Mortar Development Framework](http://help.mortardata.com/#!/install_mortar_development_framework)
-1. Clone this repository to your computer:
-
-        git clone git@github.com:mortardata/mortar-examples.git
-        cd mortar-examples
-
-Once you've setup the project, use the `mortar local:illustrate` command to show data flowing through a given script.  Use `mortar local:run` to run the script locally on your own computer.
-
-### Registering your Mortar Project
-
-To register your Mortar project you will need to upgrade your Mortar account.  You can view the available plans [here](https://app.mortardata.com/account#!/plans).
-
-All Mortar projects share a global namespace so for this example project you should prepend your id to the project name in order to avoid namespace collisions.
-
-        mortar register <your-username>-mortar-examples
-
-Once your project is registered you can run it on a Hadoop cluster using `mortar run <pig script> --clustersize <cluster size>`
+To get started follow the [Mortar Example Tutorial](http://localhost:3000/data_apps/build_your_own/mortar_project_example).
 
 ## Help
 
