@@ -1,5 +1,3 @@
-from pig_util import outputSchema
-
 COFFEE_SNOB_PHRASES = set((\
     'espresso', 'cappucino', 'macchiato', 'latte', 'cortado', 'pour over', 'barista', 
     'flat white', 'siphon pot', 'woodneck', 'french press', 'arabica', 'chemex', 
