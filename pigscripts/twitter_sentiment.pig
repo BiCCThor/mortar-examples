@@ -28,10 +28,10 @@
 %default MIN_ASSOCIATION_FREQUENCY '0.00000125'
 %default MAX_NUM_ASSOCIATIONS '100'
 
--- Load Jython UDF's and Pig macros
+-- Load Jython UDFs and Pig macros
 
-REGISTER '../udfs/jython/twitter_sentiment.py' USING streaming_python AS twitter_sentiment;
-REGISTER '../udfs/jython/words_lib.py' USING streaming_python AS words_lib;
+REGISTER '../udfs/jython/twitter_sentiment.py' USING jython AS twitter_sentiment;
+REGISTER '../udfs/jython/words_lib.py' USING jython AS words_lib;
 
 IMPORT '../macros/words.pig';
 

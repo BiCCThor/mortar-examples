@@ -1,6 +1,4 @@
-from __future__ import unicode_literals
 import re
-from pig_util import outputSchema
 
 positive_words = set([
 "addicting", "addictingly", "admirable", "admirably", "admire", "admires", "admiring", "adorable", 

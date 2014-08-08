@@ -1,7 +1,5 @@
-from __future__ import unicode_literals
 import re
 from collections import defaultdict
-from pig_util import outputSchema
 
 # Decorator to help udf's handle null input like Pig does (just ignore it and return null)
 def null_if_input_null(fn):
