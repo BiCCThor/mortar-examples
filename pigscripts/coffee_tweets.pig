@@ -10,9 +10,9 @@
  */
 
 
--- Register the python User-Defined Functions (UDFs) we will use
-REGISTER '../udfs/python/twitter_places.py' USING streaming_python AS twitter_places;
-REGISTER '../udfs/python/coffee.py' USING streaming_python AS coffee;
+-- Register the jython User-Defined Functions (UDFs) we will use
+REGISTER '../udfs/jython/twitter_places.py' USING jython AS twitter_places;
+REGISTER '../udfs/jython/coffee.py' USING jython AS coffee;
 
 %default TWEET_LOAD_PATH 's3n://twitter-gardenhose-mortar/example'
 %default OUTPUT_PATH 's3n://mortar-example-output-data/$MORTAR_EMAIL_S3_ESCAPED/coffee_tweets'
