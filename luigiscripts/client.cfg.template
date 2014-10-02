@@ -21,7 +21,7 @@
 [mortar]
 email: ${MORTAR_EMAIL}
 api_key: ${MORTAR_API_KEY}
-host: api.m0rtardata.com
+host: api.mortardata.com
 
 # 
 # AWS credentials to check for completed output
