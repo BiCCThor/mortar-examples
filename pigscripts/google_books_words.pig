@@ -2,12 +2,12 @@
  * Finds word frequencies (probability that a random word is the given word) using the Google Books corpus.
  */
 
--- To test with a small portion of the data, you can set INPUT_PATH to
--- 's3://mortar-example-data/ngrams/books/20120701/eng-all/1gram/googlebooks-eng-all-1gram-20120701-q.gz'
--- to load only words beginning with "q".
+-- This script is set up to run against a portion of the data (words beginning with "q") for testing purposes.
+-- To run against the full data set, you can set INPUT_PATH to
+-- 's3://mortar-example-data/ngrams/books/20120701/eng-all/1gram/*.gz'
 
-%default INPUT_PATH 's3n://mortar-example-data/ngrams/books/20120701/eng-all/1gram/*.gz'
-%default OUTPUT_PATH 's3n://mortar-example-output-data/$MORTAR_EMAIL_S3_ESCAPED/ngrams/books/20120701/eng-all/1gram'
+%default INPUT_PATH 's3://mortar-example-data/ngrams/books/20120701/eng-all/1gram/googlebooks-eng-all-1gram-20120701-q.gz'
+%default OUTPUT_PATH 's3://mortar-example-output-data/$MORTAR_EMAIL_S3_ESCAPED/1gram'
 
 -- Timeframe to take word occurrences from
 -- The Google Books Ngrams V2 dataset has data up to 2008
@@ -57,7 +57,7 @@ word_frequencies        =   FOREACH word_totals GENERATE
                                 word AS word, 
                                 occurrences AS occurrences, 
                                 (double)occurrences / (double)stats.total_num_words AS frequency: double;
-word_frequencies_sorted =   ORDER word_frequencies BY frequency;
+word_frequencies_sorted =   ORDER word_frequencies BY frequency DESC;
 
 rmf $OUTPUT_PATH/dictionary;
 STORE word_frequencies_sorted INTO '$OUTPUT_PATH/dictionary' USING PigStorage('\t');
