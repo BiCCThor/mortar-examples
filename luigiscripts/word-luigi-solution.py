@@ -1,8 +1,8 @@
 import luigi
-from luigi import configuration, LocalTarget
+from luigi import configuration
 from luigi.s3 import S3Target, S3PathTask
 
-from mortar.luigi import mortartask, s3transfer
+from mortar.luigi import mortartask
 
 
 """
