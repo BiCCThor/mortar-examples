@@ -4,7 +4,7 @@ Mortar is a platform-as-a-service for Hadoop.  With Mortar, you can run jobs on 
 
 ## Getting Started
 
-To get started follow the [Mortar Example Tutorial](http://localhost:3000/data_apps/build_your_own/mortar_project_example).
+To get started follow the [Mortar Example Tutorial](https://help.mortardata.com/data_apps/build_your_own/mortar_project_example).
 
 ## Help
 
