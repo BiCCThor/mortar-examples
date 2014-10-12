@@ -26,8 +26,8 @@ input_path <- args[1]
 output_path <- args[2]
 
 # Install libraries
-install.packages("plyr", repos="http://cran.rstudio.com/")
-install.packages("ggplot2", repos="http://cran.rstudio.com/")
+install.packages("plyr", repos="http://lib.stat.cmu.edu/R/CRAN/")
+install.packages("ggplot2", repos="http://lib.stat.cmu.edu/R/CRAN/")
 library(plyr)
 library(ggplot2)
 
