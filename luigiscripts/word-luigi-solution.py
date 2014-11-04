@@ -30,12 +30,6 @@ class WordRank(mortartask.MortarProjectPigscriptTask):
         """
         return self.output_path
 
-    def project(self):
-        """
-        Add your project's name here
-        """
-        return 'my-project-name'
-
     def script(self):
         """
         Name of the Pigscript to run 
