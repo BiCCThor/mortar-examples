@@ -13,8 +13,8 @@
 REGISTER '../udfs/jython/twitter_places.py' USING jython AS twitter_places;
 REGISTER '../udfs/jython/coffee.py' USING jython AS coffee;
 
-%default TWEET_LOAD_PATH 's3n://twitter-gardenhose-mortar/example'
-%default OUTPUT_PATH 's3n://mortar-example-output-data/$MORTAR_EMAIL_S3_ESCAPED/coffee_tweets_gdrive'
+%default TWEET_LOAD_PATH 's3://twitter-gardenhose-mortar/example'
+%default OUTPUT_PATH 's3://mortar-example-output-data/$MORTAR_EMAIL_S3_ESCAPED/coffee_tweets_gdrive'
 
 -- Load up tweets specified in env parameter file supplied at runtime (env/x.params)
 tweets =  LOAD '$TWEET_LOAD_PATH'

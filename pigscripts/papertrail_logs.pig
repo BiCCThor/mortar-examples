@@ -8,16 +8,16 @@
  * Identifies web sessions in KISSmetrics data by looking for overlap with Papertrail
  * Orders web actions by users to find the last one
  */
- 
+
 -- Default Parameters
-%default OUTPUT_PATH 's3n://mortar-example-output-data/$MORTAR_EMAIL_S3_ESCAPED/papertrail-logs'
+%default OUTPUT_PATH 's3://mortar-example-output-data/$MORTAR_EMAIL_S3_ESCAPED/papertrail-logs'
 
 -- User-Defined Functions (UDFs)
 REGISTER '../udfs/python/papertrail_logs.py' USING streaming_python AS papertrail_logs;
 
-REGISTER s3n://mhc-software-mirror/datafu/datafu-0.0.9-SNAPSHOT.jar;
-REGISTER s3n://mhc-software-mirror/joda-time/joda-time-2.1.jar;
-REGISTER s3n://mhc-software-mirror/papertrail/papertrail-loader-0.2.jar;
+REGISTER s3://mhc-software-mirror/datafu/datafu-0.0.9-SNAPSHOT.jar;
+REGISTER s3://mhc-software-mirror/joda-time/joda-time-2.1.jar;
+REGISTER s3://mhc-software-mirror/papertrail/papertrail-loader-0.2.jar;
 
 define Sessionize datafu.pig.sessions.Sessionize('30m');
 DEFINE UnixToISO   org.apache.pig.piggybank.evaluation.datetime.convert.UnixToISO();
@@ -34,7 +34,7 @@ DEFINE FromJson org.apache.pig.piggybank.evaluation.FromJsonWithSchema('AUTH_TYP
 message = FOREACH full_web GENERATE FLATTEN(FromJson(message));
 
 --Load KISSmetrics events data
-k_events = LOAD 's3n://mortar-example-data/papertrail-logs/sample_km_data.json' USING org.apache.pig.piggybank.storage.JsonLoader('_p: chararray, _t: long, _n: chararray, referrer: chararray, url: chararray');
+k_events = LOAD 's3://mortar-example-data/papertrail-logs/sample_km_data.json' USING org.apache.pig.piggybank.storage.JsonLoader('_p: chararray, _t: long, _n: chararray, referrer: chararray, url: chararray');
 
 -- Only look for users with an actual email address
 k_events_f = FILTER k_events by underscore_p matches '.*@.*' and underscore_n is not null;
@@ -68,7 +68,7 @@ k= FOREACH (GROUP k_sessions by (sessionId, user_email)) {
     };
 
 -- Load the users table in order to translate from Papertrail ids to KM user_emails
-translation_data = LOAD 's3n://mortar-example-data/papertrail-logs/id_translation.csv' USING org.apache.pig.piggybank.storage.CSVExcelStorage() AS (email:chararray, id:chararray);
+translation_data = LOAD 's3://mortar-example-data/papertrail-logs/id_translation.csv' USING org.apache.pig.piggybank.storage.CSVExcelStorage() AS (email:chararray, id:chararray);
 l = JOIN log_min_max by user_id, translation_data by id;
 log_km_join = JOIN l by email, k by user_email;
 
