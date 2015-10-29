@@ -9,15 +9,15 @@
  * Words are filtered so that only those with length >= MIN_WORD_LENGTH are counted.
  *
  * Postive/negative associations (the words with the greatest relative frequency for positive/negative tweets)
- * are filtered so as not to include the words which signalled positive/negative sentiment in the first place. 
+ * are filtered so as not to include the words which signalled positive/negative sentiment in the first place.
  * This way, you don't just get a list of words like "great" and "awesome".
- * 
+ *
  * All text is converted to lower case before being analyzed.
- * Words with non-alphabetic characters in the middle of them are ignored ("C3P0"), 
+ * Words with non-alphabetic characters in the middle of them are ignored ("C3P0"),
  * but words with non-alphabetic characters on the edges simply have them stripped ("totally!!!" -> "totally")
  */
 
-%default OUTPUT_PATH 's3n://mortar-example-output-data/$MORTAR_EMAIL_S3_ESCAPED/twitter_sentiment'
+%default OUTPUT_PATH 's3://mortar-example-output-data/$MORTAR_EMAIL_S3_ESCAPED/twitter_sentiment'
 
 %default MIN_WORD_LENGTH '5'
 
@@ -38,13 +38,13 @@ IMPORT '../macros/words.pig';
 -- Load tweets
 -- To improve performance, we tell the JsonLoader to only load the field that we need (text)
 
-tweets = LOAD 's3n://twitter-gardenhose-mortar/tweets' 
+tweets = LOAD 's3://twitter-gardenhose-mortar/tweets'
          USING org.apache.pig.piggybank.storage.JsonLoader('text: chararray');
 
 -- Split the text of each tweet into words and calculate a sentiment score
 
 tweets_tokenized        =   FOREACH tweets GENERATE words_lib.words_from_text(text) AS words;
-tweets_with_sentiment   =   FOREACH tweets_tokenized 
+tweets_with_sentiment   =   FOREACH tweets_tokenized
                             GENERATE words, twitter_sentiment.sentiment(words) AS sentiment: double;
 
 SPLIT tweets_with_sentiment INTO
@@ -58,15 +58,15 @@ SPLIT tweets_with_sentiment INTO
 tweet_word_totals       =   WORD_TOTALS(tweets_tokenized, $MIN_WORD_LENGTH);
 tweet_word_frequencies  =   WORD_FREQUENCIES(tweet_word_totals);
 
--- Find the frequencies of words that show up in tweets expressing positive sentiment, 
+-- Find the frequencies of words that show up in tweets expressing positive sentiment,
 -- and divide them by the frequencies of those words in the entire tweet corpus
--- to find the relative frequency of each word. 
+-- to find the relative frequency of each word.
 
 pos_word_totals         =   WORD_TOTALS(positive_tweets, $MIN_WORD_LENGTH);
 pos_word_frequencies    =   WORD_FREQUENCIES(pos_word_totals);
 pos_rel_frequencies     =   RELATIVE_WORD_FREQUENCIES(pos_word_frequencies, tweet_word_frequencies, $MIN_ASSOCIATION_FREQUENCY);
 
--- Take the top 100 of these positively associated words, 
+-- Take the top 100 of these positively associated words,
 -- filtering out the words which signalled the positive sentiment in the first place (ex. "great", "awesome").
 
 pos_associations        =   ORDER pos_rel_frequencies BY rel_frequency DESC;

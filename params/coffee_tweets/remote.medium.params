@@ -1,1 +1,1 @@
-TWEET_LOAD_PATH=s3n://twitter-gardenhose-mortar/example
+TWEET_LOAD_PATH=s3://twitter-gardenhose-mortar/example

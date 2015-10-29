@@ -5,7 +5,7 @@
  * and calculates the for each date:
  *     1) Total # of requests for non-image URI's (non-image to filter out icons and the like)
  *     2) Total # of bytes served for non-image URI's
- *     3) Top 10 non-image URI's served for that date, sorted by either num_requests or num_bytes 
+ *     3) Top 10 non-image URI's served for that date, sorted by either num_requests or num_bytes
  *        depending on the ORDERING parameter.
  *
  * Pig concepts demonstrated:
@@ -15,33 +15,33 @@
  *     - Grouping by multiple fields; nested foreach
  */
 
-/** 
+/**
  * Parameters - default values here; you can override with -p on the command-line.
  */
- 
-%default INPUT_PATH 's3n://mortar-example-data/nasa_logs/NASA_access_log_*.gz'
-%default OUTPUT_PATH 's3n://mortar-example-output-data/$MORTAR_EMAIL_S3_ESCAPED/nasa_logs'
+
+%default INPUT_PATH 's3://mortar-example-data/nasa_logs/NASA_access_log_*.gz'
+%default OUTPUT_PATH 's3://mortar-example-output-data/$MORTAR_EMAIL_S3_ESCAPED/nasa_logs'
 %default ORDERING 'num_requests'    -- should be 'num_requests' or 'num_bytes'
 
 -- Register python udfs
 REGISTER '../udfs/python/nasa_logs.py' USING streaming_python AS nasa_logs;
 
 -- Load using the Piggybank function CommonLogLoader
-logs = LOAD '$INPUT_PATH' 
-       USING org.apache.pig.piggybank.storage.apachelog.CommonLogLoader() 
-       AS (addr: chararray, logname: chararray, user: chararray, time: chararray, 
-           method: chararray, uri: chararray, proto: chararray, status: int, 
+logs = LOAD '$INPUT_PATH'
+       USING org.apache.pig.piggybank.storage.apachelog.CommonLogLoader()
+       AS (addr: chararray, logname: chararray, user: chararray, time: chararray,
+           method: chararray, uri: chararray, proto: chararray, status: int,
            bytes: int);
 
 -- Extract the date from each log and prune unneeded columns
 -- Note that regex escapes need to be double-escaped (ex. '\\d' instead of '\d')
-logs_with_date = FOREACH logs 
-                 GENERATE 
-                    REGEX_EXTRACT(nasa_logs.clf_timestamp_to_iso(time), '^(\\d{4}-\\d{2}-\\d{2})T', 1) AS date: chararray, 
+logs_with_date = FOREACH logs
+                 GENERATE
+                    REGEX_EXTRACT(nasa_logs.clf_timestamp_to_iso(time), '^(\\d{4}-\\d{2}-\\d{2})T', 1) AS date: chararray,
                     uri, bytes;
 
 -- Filter out requests for images
-relevant_logs = FILTER logs_with_date 
+relevant_logs = FILTER logs_with_date
                 BY NOT (REGEX_EXTRACT(uri, '.*\\.(.*)', 1) MATCHES 'jpg|JPG|gif|GIF|png|PNG|tiff|TIFF');
 
 -- We want to find top uri's for each date
@@ -52,8 +52,8 @@ logs_by_uri_date = GROUP relevant_logs BY (uri, date);
 
 -- Use builtin udf's to find total # of requests and # of bytes served
 uri_date_counts = FOREACH logs_by_uri_date
-                  GENERATE group, 
-                           COUNT(relevant_logs) AS num_requests: long, 
+                  GENERATE group,
+                           COUNT(relevant_logs) AS num_requests: long,
                            SUM(relevant_logs.bytes) AS num_bytes: long;
 
 -- Group the uri-date totals by just date

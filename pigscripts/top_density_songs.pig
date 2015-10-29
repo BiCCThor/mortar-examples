@@ -3,7 +3,7 @@
  */
 
 -- Default Parameters
-%default OUTPUT_PATH 's3n://mortar-example-output-data/$MORTAR_EMAIL_S3_ESCAPED/top-density-songs'
+%default OUTPUT_PATH 's3://mortar-example-output-data/$MORTAR_EMAIL_S3_ESCAPED/top-density-songs'
 
 -- User-Defined Functions (UDFs)
 REGISTER '../udfs/python/millionsong.py' USING streaming_python AS millionsong;
@@ -20,10 +20,10 @@ songs = ONE_SONGS_FILE();
 filtered_songs = FILTER songs BY duration > 0;
 
 -- Use FOREACH to run calculations on every row.
--- Here, we calculate density (sounds per second) using 
+-- Here, we calculate density (sounds per second) using
 -- the the Python UDF density function from millionsong.py
-song_density = FOREACH filtered_songs 
-              GENERATE artist_name, 
+song_density = FOREACH filtered_songs
+              GENERATE artist_name,
                        title,
                        millionsong.density(segments_start, duration);
 
@@ -36,6 +36,6 @@ top_density     = LIMIT density_ordered 50;
 -- We use the pig 'rmf' command to remove any
 -- existing results first
 rmf $OUTPUT_PATH;
-STORE top_density 
- INTO '$OUTPUT_PATH' 
+STORE top_density
+ INTO '$OUTPUT_PATH'
 USING PigStorage('\t');
